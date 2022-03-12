@@ -1,5 +1,5 @@
 const { model } = require('mongoose');
-const Thought = require('./Thoughts');
-const User = require('./Users');
+const Thought = require('./Thought');
+const User = require('./User');
 
 module.exports = { User, Thought };
