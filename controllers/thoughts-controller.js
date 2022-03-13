@@ -2,22 +2,6 @@ const {Thought, User} = require('../models');
 
 
 const thoughtController = {
-    // Create a new thought
-    createThought({params, body}, res) {
-        Thought.create(body)
-        .then(({_id}) => {
-            return User.findOneAndUpdate({ _id: params.userId}, {$push: {thought: _id}}, {new: true});
-        })
-        .then(dbThoughtData => {
-            if(!dbThoughtData) {
-                res.status(404).json({message: 'No thought with this particular ID!'});
-                return;
-            }
-            res.json(dbThoughtData)
-        })
-        .catch(err => res.json(err)); 
-    },
-
     // Get all thoughts
     getAllThought(req,res) {
         Thought.find({})
@@ -47,6 +31,22 @@ const thoughtController = {
             res.sendStatus(400);
         });
     },
+
+        // Create a new thought
+        createThought({params, body}, res) {
+            Thought.create(body)
+            .then(({_id}) => {
+                return User.findOneAndUpdate({ _id: params.userId}, {$push: {thought: _id}}, {new: true});
+            })
+            .then(dbThoughtData => {
+                if(!dbThoughtData) {
+                    res.status(404).json({message: 'No thought with this particular ID!'});
+                    return;
+                }
+                res.json(dbThoughtData)
+            })
+            .catch(err => res.json(err)); 
+        },
 
     // Update thought by ID
     updateThought({params, body}, res) {
